@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth';
 
 @Component({
@@ -7,18 +8,25 @@ import { AuthService } from '../auth';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.css'],
+  styleUrls: ['./login.css']
 })
 export class LoginComponent {
-  email = '';
+  username = '';
   password = '';
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   login() {
-    this.auth.login(this.email, this.password).subscribe(res => {
-      this.auth.saveToken(res.access);
-      alert('Login exitoso');
+    this.auth.login(this.username, this.password).subscribe({
+      next: res => {
+        const role = this.auth.getRole();
+        if (role === 'client') this.router.navigate(['/client']);
+        else if (role === 'barber') this.router.navigate(['/barber']);
+        else this.router.navigate(['/admin']);
+      },
+      error: err => {
+        alert('Login fallido: ' + (err.error.detail || 'Verifica credenciales'));
+      }
     });
   }
 }

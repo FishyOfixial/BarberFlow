@@ -1,6 +1,16 @@
-<h2>Login</h2>
-
-<input placeholder="Email" [(ngModel)]="email" />
-<input type="password" placeholder="Password" [(ngModel)]="password" />
-
-<button (click)="login()">Entrar</button>
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="logo">
+      <h1>Mr. Charles'</h1>
+    </div>
+    <form (ngSubmit)="login()">
+      <div class="input-group">
+        <input type="text" placeholder="Usuario" [(ngModel)]="username" name="username" required />
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="Contraseña" [(ngModel)]="password" name="password" required />
+      </div>
+      <button type="submit">Iniciar sesión</button>
+    </form>
+  </div>
+</div>
